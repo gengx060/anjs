@@ -11,10 +11,11 @@
     <link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
 <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-    <script src="menu.js"></script>
-    <script src="comment.js"></script>
-    <script src="example.js"></script>
     <script src="asset/linq/linq.js"></script>
+
+    <script src="app/menu/menu.js"></script>
+    <script src="app/comment/comment.js"></script>
+    <script src="app/app.js"></script>
   </head>
 
 <style>
@@ -46,7 +47,9 @@
 
     <menu></menu>
     <div class="container">
-    <ng-view></ng-view>
+      <ng-view></ng-view>
+    </div>
+<!--     <div class="container">
     <div class="row">
     <div class="col-md-3">
        <ul class="nav">
@@ -59,7 +62,7 @@
 
     </div>
 
-    </div><!-- /.container -->
+    </div>
 
 
   <script type="text/ng-template" id="add_order.html">
@@ -74,11 +77,9 @@
     <h2> Show Orders </h2>
     {{message}}
 
-  </script>
+  </script> -->
 
 
-  <comments></comments>
-
-  <script src="app.js"></script>
+<!--   <comments></comments> -->
   </body>
 </html>
