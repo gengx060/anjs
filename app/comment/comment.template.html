@@ -7,6 +7,10 @@
 	}
 	.comment_reply_ul_li a{ cursor:pointer}
 	</style>
+<!-- 	<div style='margin:0,0,40,40'>
+		<b>sent to server</b>
+		<p ng-bind="code_text"></p>
+	</div> -->
 	<div ng-repeat="comment in comments" style='margin-bottom: 10px'>
 	  	<div ng-style="{'margin-left': comment.lvl==1 ? '40px' : 55 + (comment.lvl-1)*45 +'px'}">
 			<div style='float:left; margin-right: 12px;'>

@@ -41,6 +41,9 @@ angular.module('comment', [])
       },
       controller: function($scope, $element) {
         $scope.margin = {'1':'40px', '2':'100px','3':'145px'};
+
+        // $scope.code_text = '';
+        // $scope.code_text_show = false;
 		$scope.newcomment = function() {
 			return {
 				content:'',
@@ -59,6 +62,10 @@ angular.module('comment', [])
 							time_stamp: new Date().toLocaleString(),
 							lvl: c.lvl+1
 						};
+						// $scope.code_text = JSON.stringify(newc);
+						// BootstrapDialog.success(JSON.stringify(newc));
+						toastr.success(JSON.stringify(newc), 'Sent',
+							{timeOut: 500,preventDuplicates: true, positionClass: 'toast-bottom-full-width'});
 						newc.newcomment = $scope.newcomment();
 						cs.push(newc);
 						this.content = '';
