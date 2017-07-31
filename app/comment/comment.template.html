@@ -35,7 +35,7 @@
 					</a>
 				</div>
 				<div style='overflow: hidden;margin-right:40px'>
-					<textarea class="form-control"  placeholder="Join the discussion here..." style='overflow: auto; word-wrap: break-word; min-height: 100px;margin-bottom:5px' ng-model="comment.newcomment.content"></textarea>
+					<textarea set-focus="comment.newcomment.show" class="form-control"  placeholder="Join the discussion here..." style='overflow: auto; word-wrap: break-word; min-height: 100px;margin-bottom:5px' ng-model="comment.newcomment.content"></textarea>
 					<button class='btn btn-info pull-right'  ng-click='comment.newcomment.send(comment, comments)'>send</button>
 				</div>
 		    </div>

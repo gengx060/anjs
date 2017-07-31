@@ -1,4 +1,36 @@
-angular.module('comment', []) 
+angular.module('comment', [])
+   .directive('setFocus1', function($timeout) {
+	  return function(scope, element, attrs) {
+	    scope.$watch(attrs.showFocus1, 
+	      function (newValue) { 
+	        $timeout(function() {
+	            newValue && element[0].focus();
+	        });
+	      },true);
+	  };    
+	})
+   .directive('setFocus', ['$timeout', '$parse', function ($timeout, $parse) {
+	    return {
+	        //scope: true,   // optionally create a child scope
+	        link: function (scope, element, attrs) {
+	            var model = $parse(attrs.setFocus);
+	            scope.$watch(model, function (value) {
+	                // console.log('value=', value);
+	                if (value === true) {
+	                    $timeout(function () {
+	                        element[0].focus();
+	                    });
+	                }
+	            });
+	            // // to address @blesh's comment, set attribute value to 'false'
+	            // // on blur event:
+	            // element.bind('blur', function () {
+	            //     console.log('blur');
+	            //     scope.$apply(model.assign(scope, false));
+	            // });
+	        }
+	    };
+	}])
   .directive('comment', function() {
     return {
       require: '^tabs',
@@ -9,33 +41,34 @@ angular.module('comment', [])
       },
       controller: function($scope, $element) {
         $scope.margin = {'1':'40px', '2':'100px','3':'145px'};
-
-		$scope.newcomment = function(){
+		$scope.newcomment = function() {
 			return {
 				content:'',
 				margin_left:'100px',
 				show:false,
 				send: function(c, cs) {
 					if (this.content != '') {
-						// console.log('sent:\n'+this.content);
 						this.show = false;
 						var newc = {
-							id : cs.length,
+							id : cs.length + 1,
 							user: 'Test User',
 							msg: this.content,
-							paretn_id: c.id+1,
+							parent_id: c.id,
 							img:null,
 							topic_id: c.topic_id,
 							time_stamp: new Date().toLocaleString(),
-							lvl: parseInt(c.lvl)+1 + ''
+							lvl: c.lvl+1
 						};
 						newc.newcomment = $scope.newcomment();
-						debugger
 						cs.push(newc);
+						this.content = '';
+						cs = sort(cs);
 						console.log('sent:\n'+newc);
 					}
 				},
 				switch: function(c) {
+					// 	window.newcomment = $element;
+					// debugger
 					if (c.lvl > 1) {
 						this.margin_left = 55 + c.lvl*45 +'px'
 					}
@@ -90,7 +123,49 @@ angular.module('comment', [])
 				newcomment: $scope.newcomment()
 			}
 		];
-		window.comments = $scope.comments;
+
+		var sort = function (cc) {
+			cc = Enumerable.From(cc).OrderBy('$.lvl').ThenBy('$.id').ToArray();
+			
+			// var rs=[Enumerable.From(cc).Where('$.parent==null').MinBy('$.id')], rs_index=0;
+			var rs=[cc[0]], rs_index=0, stack=[0];
+
+			// cc.splice(cc.indexOf(Enumerable.From(cc).Where('$.parent==null').MinBy('$.id')), 1);
+			cc.splice(0, 1);
+
+			while (cc.length > 0) {
+				for(var i=0; i<cc.length; i++) {
+					if(typeof rs[rs_index] == 'undefined')
+						debugger
+					if (cc[i].parent_id == rs[stack[stack.length-1]].id) {
+						// if (cc[i].lvl == 4)
+						// 	debugger
+						rs.push(cc[i]);
+						cc.splice(i, 1);
+						i--;
+						stack.push(rs.length - 1)
+						// rs_index++; // top of the stack should be a tree leaf
+					}
+				}
+				if (stack.length > 0)
+					stack.splice(stack.length-1, 1);
+				// if (rs_index > 0)
+				// 	rs_index--; // go down one lvl
+				if (stack.length == 0) { // currently on the root
+					if (cc.length>0 && cc[0].parent_id==null) { // top lvl of the tree
+						rs.push(cc[0]);
+						cc.splice(0, 1);
+						stack.push(rs.length - 1)
+					} else {
+						debugger
+						break; // sanity check
+					}
+				}
+			}
+			$scope.comments = rs;
+			window.comments = $scope.comments;
+      	}
+
       },
       templateUrl:'app/comment/comment.template.html',
       replace: true

@@ -9,8 +9,8 @@ angular.module('menu', [])
       },
       controller: function($scope, $element) {
         $scope.menus = [
-          { route: ['','welcome'], name: 'welcome', moduleId: '/welcome', nav: true, title:'Welcome' },
-          { route: 'users',         name: 'users',    moduleId: '/comment',    nav: true, title:'Github Users' }
+          { name: 'welcome', route: '/welcome', nav: false, title:'Welcome' },
+          { name: 'users',   route: '/comment', nav: true,  title:'Github Users' }
         ];
       },
       template:'\
@@ -32,7 +32,7 @@ angular.module('menu', [])
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">\
       <ul class="nav navbar-nav">\
         <li  ng-repeat="menu in menus">\
-          <a href="#!{{menu.moduleId}}">{{menu.name}}</a>\
+          <a href="#!{{menu.route}}"  ng-if="menu.nav">{{menu.name}}</a>\
         </li>\
         <!--li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li-->\
         <li class="dropdown">\
