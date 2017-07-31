@@ -10,7 +10,8 @@ angular.module('menu', [])
       controller: function($scope, $element) {
         $scope.menus = [
           { name: 'welcome', route: '/welcome', nav: false, title:'Welcome' },
-          { name: 'users',   route: '/comment', nav: true,  title:'Github Users' }
+          { name: 'comments',   route: '/comment', nav: true,  title:'Github Users' },
+          { name: 'users',   route: '/contact', nav: true,  title:'Github Users' }
         ];
       },
       template:'\

@@ -35,6 +35,9 @@ sampleApp.config(['$routeProvider',
       templateUrl: 'show_orders.html',
       controller: 'ShowOrdersController'
     });
+    $routeProvider.when('/contact', {
+      templateUrl: 'app/contact/contact.template.html',
+    });
     $routeProvider.when('/comment', {
       template: '<comment></comment>'
     })
