@@ -1,4 +1,7 @@
-angular.module('comment', [])
+
+define(['angular', 'toastr', 'linq'], function (angular, toastr, Enumerable) {
+	debugger
+	angular.module('comment', [])
    .directive('setFocus1', function($timeout) {
 	  return function(scope, element, attrs) {
 	    scope.$watch(attrs.showFocus1, 
@@ -170,11 +173,11 @@ angular.module('comment', [])
 				}
 			}
 			$scope.comments = rs;
-			window.comments = $scope.comments;
       	}
 
       },
       templateUrl:'app/comment/comment.template.html',
       replace: true
     };
-  })
+  });
+});
