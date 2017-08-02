@@ -1,74 +1,74 @@
 
-define(['angular', 'toastr', 'linq'], function (angular, toastr, Enumerable) {
-	debugger
-	angular.module('comment', [])
-   .directive('setFocus1', function($timeout) {
-	  return function(scope, element, attrs) {
-	    scope.$watch(attrs.showFocus1, 
-	      function (newValue) { 
-	        $timeout(function() {
-	            newValue && element[0].focus();
-	        });
-	      },true);
-	  };    
-	})
-   .directive('setFocus', ['$timeout', '$parse', function ($timeout, $parse) {
-	    return {
-	        //scope: true,   // optionally create a child scope
-	        link: function (scope, element, attrs) {
-	            var model = $parse(attrs.setFocus);
-	            scope.$watch(model, function (value) {
-	                // console.log('value=', value);
-	                if (value === true) {
-	                    $timeout(function () {
-	                        element[0].focus();
-	                    });
-	                }
-	            });
-	            // // to address @blesh's comment, set attribute value to 'false'
-	            // // on blur event:
-	            // element.bind('blur', function () {
-	            //     console.log('blur');
-	            //     scope.$apply(model.assign(scope, false));
-	            // });
-	        }
-	    };
+define(['angular', 'toastr', 'Enumerable', 'bootstrap-dialog', 'app/welcome/full-page-loader'],
+       function (angular, toastr, Enumerable, BootstrapDialog) {
+       	angular.module('comment', ['fullPageLoader'])
+       	.directive('setFocus1', function($timeout) {
+       		return function(scope, element, attrs) {
+       			scope.$watch(attrs.showFocus1, 
+       			             function (newValue) { 
+       			             	$timeout(function() {
+       			             		newValue && element[0].focus();
+       			             	});
+       			             },true);
+       		};    
+       	})
+       	.directive('setFocus', ['$timeout', '$parse', function ($timeout, $parse) {
+       		return {
+			//scope: true,   // optionally create a child scope
+			link: function (scope, element, attrs) {
+				var model = $parse(attrs.setFocus);
+				scope.$watch(model, function (value) {
+					// console.log('value=', value);
+					if (value === true) {
+						$timeout(function () {
+							element[0].focus();
+						});
+					}
+				});
+				// // to address @blesh's comment, set attribute value to 'false'
+				// // on blur event:
+				// element.bind('blur', function () {
+				//     console.log('blur');
+				//     scope.$apply(model.assign(scope, false));
+				// });
+			}
+		};
 	}])
-  .directive('comment', function() {
-    return {
-      require: '^tabs',
-      restrict: 'E',
-      transclude: true,
-      scope: {
-       
-      },
-      controller: function($scope, $element) {
-        $scope.margin = {'1':'40px', '2':'100px','3':'145px'};
+       	.directive('comment', function() {
+       		return {
+       			require: '^tabs',
+       			restrict: 'E',
+       			transclude: true,
+       			scope: {
 
-        // $scope.code_text = '';
-        // $scope.code_text_show = false;
+       			},
+       			controller: function($scope, $element, $http) {
+       				$scope.margin = {'1':'40px', '2':'100px','3':'145px'};
+
+		// $scope.code_text = '';
+		// $scope.code_text_show = false;
 		$scope.newcomment = function() {
 			return {
 				content:'',
 				margin_left:'100px',
 				show:false,
 				send: function(c, cs) {
+					debugger
 					if (this.content != '') {
 						this.show = false;
 						var newc = {
 							id : cs.length + 1,
 							user: 'Test User',
 							msg: this.content,
-							parent_id: c.id,
+							parent_id: c?c.id:null,
 							img:null,
-							topic_id: c.topic_id,
+							topic_id: c?c.topic_id:0,
 							time_stamp: new Date().toLocaleString(),
-							lvl: c.lvl+1
+							lvl: c?c.lvl:0+1
 						};
-						// $scope.code_text = JSON.stringify(newc);
 						// BootstrapDialog.success(JSON.stringify(newc));
 						toastr.success(JSON.stringify(newc), 'Sent',
-							{timeOut: 500,preventDuplicates: true, positionClass: 'toast-bottom-full-width'});
+						               {timeOut: 500,preventDuplicates: true, positionClass: 'toast-bottom-full-width'});
 						newc.newcomment = $scope.newcomment();
 						cs.push(newc);
 						this.content = '';
@@ -77,61 +77,75 @@ define(['angular', 'toastr', 'linq'], function (angular, toastr, Enumerable) {
 					}
 				},
 				switch: function(c) {
-					// 	window.newcomment = $element;
-					// debugger
 					if (c.lvl > 1) {
 						this.margin_left = 55 + c.lvl*45 +'px'
 					}
 					this.show = !this.show;
+					// Simple GET request example:
+					$scope.$root['ajax_loader'].show = true;
+					$http({
+						method: 'GET',
+						url: 'https://gengt.pagekite.me/account/ucp/exemption'
+					}).then(function successCallback(response) {
+						debugger
+					    // this callback will be called asynchronously
+					    // when the response is available
+					}, function errorCallback(response) {
+					    // called asynchronously if an error occurs
+					    // or server returns response with an error status.
+					}).then(function() {
+						$scope.$root['ajax_loader'].show = false;
+					    // "complete" code here
+					});
 				}
 			}
 		};
 
-        $scope.comments = [
-			{
-				id:1,
-				topic_id: 1,
-				user:'Stefanih',
-				msg:'We have clients all over the US. We do everything from my home office. Do we charge tax to everyone or only to those who live in Texas? Or? \n\nTHANK YOU!!!',
-				parent_id: null,
-				img:null,
-				lvl:1,
-				time_stamp:'12/12/2016, 11:06:47 AM',
-				newcomment: $scope.newcomment()
-			},
-			{
-				id:2,
-				topic_id: 1,
-				user:'Exactor',
-				msg:'I recommend double checking to make sure your services are taxable first. Here\'s a list of services Texas considers taxable',
-				parent_id: 1,
-				img:null,
-				lvl:2,
-				time_stamp:'12/15/2016, 10:06:47 AM',
-				newcomment: $scope.newcomment()
-			},
-			{
-				id:3,
-				topic_id: 1,
-				user:'Stefanih',
-				msg:'Thank you! I\'ve looked at many sources, and it appears that both web design and graphic design are taxable in Texas. Thank you for the info about only collecting from clients in Texas. That\'s what we\'ve been doing! YAY! :)',
-				parent_id: 2,
-				img:null,
-				lvl:3,
-				time_stamp:'12/17/2016, 10:16:47 AM',
-				newcomment: $scope.newcomment()
-			},
-			{
-				id:4,
-				topic_id: 1,
-				user:'Belle Chang-Li',
-				msg:'I would ONLY have to charge them the cost of my product + shipping? Thanks guys!!',
-				parent_id: null,
-				img:null,
-				lvl:1,
-				time_stamp:'12/18/2016, 11:06:47 AM',
-				newcomment: $scope.newcomment()
-			}
+		$scope.comments = [
+		{
+			id:1,
+			topic_id: 1,
+			user:'Stefanih',
+			msg:'We have clients all over the US. We do everything from my home office. Do we charge tax to everyone or only to those who live in Texas? Or? \n\nTHANK YOU!!!',
+			parent_id: null,
+			img:null,
+			lvl:1,
+			time_stamp:'12/12/2016, 11:06:47 AM',
+			newcomment: $scope.newcomment()
+		},
+		{
+			id:2,
+			topic_id: 1,
+			user:'Exactor',
+			msg:'I recommend double checking to make sure your services are taxable first. Here\'s a list of services Texas considers taxable',
+			parent_id: 1,
+			img:null,
+			lvl:2,
+			time_stamp:'12/15/2016, 10:06:47 AM',
+			newcomment: $scope.newcomment()
+		}//,
+		// {
+		// 	id:3,
+		// 	topic_id: 1,
+		// 	user:'Stefanih',
+		// 	msg:'Thank you! I\'ve looked at many sources, and it appears that both web design and graphic design are taxable in Texas. Thank you for the info about only collecting from clients in Texas. That\'s what we\'ve been doing! YAY! :)',
+		// 	parent_id: 2,
+		// 	img:null,
+		// 	lvl:3,
+		// 	time_stamp:'12/17/2016, 10:16:47 AM',
+		// 	newcomment: $scope.newcomment()
+		// },
+		// {
+		// 	id:4,
+		// 	topic_id: 1,
+		// 	user:'Belle Chang-Li',
+		// 	msg:'I would ONLY have to charge them the cost of my product + shipping? Thanks guys!!',
+		// 	parent_id: null,
+		// 	img:null,
+		// 	lvl:1,
+		// 	time_stamp:'12/18/2016, 11:06:47 AM',
+		// 	newcomment: $scope.newcomment()
+		// }
 		];
 
 		var sort = function (cc) {
@@ -173,11 +187,11 @@ define(['angular', 'toastr', 'linq'], function (angular, toastr, Enumerable) {
 				}
 			}
 			$scope.comments = rs;
-      	}
+		}
 
-      },
-      templateUrl:'app/comment/comment.template.html',
-      replace: true
-    };
-  });
+	},
+	templateUrl:'app/comment/comment.template.html',
+	replace: true
+};
+});
 });
