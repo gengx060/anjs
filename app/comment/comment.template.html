@@ -11,16 +11,16 @@
 		<b>sent to server</b>
 		<p ng-bind="code_text"></p>
 	</div> -->
-	<div style='margin-left:40px;margin-bottom: 10px'>
-		<div ng-style="{'margin-left': newcomment.margin_left}">
+	<div style='margin-bottom: 10px'>
+		<div ng-style="{'margin-left': newcomment_top.margin_left}">
 			<div style='float:left; margin-right: 12px;'>
 				<a href='#'>
-					<img ng-style="{'width':'48px', 'height': '48px'}" ng-src='{{newcomment.img ? newcomment.img : "asset/img/noavatar.png"}}'>
+					<img ng-style="{'width':'48px', 'height': '48px'}" ng-src='{{newcomment_top.img ? newcomment_top.img : "asset/img/noavatar.png"}}'>
 				</a>
 			</div>
 			<div style='overflow: hidden;margin-right:40px'>
-				<textarea set-focus="newcomment.show" class="form-control"  placeholder="Join the discussion here..." style='overflow: auto; word-wrap: break-word; min-height: 100px;margin-bottom:5px' ng-model="newcomment.content"></textarea>
-				<button class='btn btn-info pull-right'  ng-click='newcomment.send()'>send</button>
+				<textarea set-focus="newcomment_top.show" class="form-control"  placeholder="Join the discussion here..." style='overflow: auto; word-wrap: break-word; min-height: 100px;margin-bottom:5px' ng-model="newcomment_top.content"></textarea>
+				<button class='btn btn-info pull-right'  ng-click='newcomment_top.send(null, comments)'>send</button>
 			</div>
 		</div>
 	</div>

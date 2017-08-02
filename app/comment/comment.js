@@ -100,6 +100,7 @@ define(['angular', 'toastr', 'Enumerable', 'bootstrap-dialog', 'app/welcome/full
 				}
 			}
 		};
+		$scope.newcomment_top = $scope.newcomment();
 
 		$scope.comments = [
 		{
