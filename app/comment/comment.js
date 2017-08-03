@@ -53,34 +53,6 @@ define(['angular', 'toastr', 'Enumerable', 'bootstrap-dialog', 'app/welcome/full
 				margin_left:'100px',
 				show:false,
 				send: function(c, cs) {
-					debugger
-					if (this.content != '') {
-						this.show = false;
-						var newc = {
-							id : cs.length + 1,
-							user: 'Test User',
-							msg: this.content,
-							parent_id: c?c.id:null,
-							img:null,
-							topic_id: c?c.topic_id:0,
-							time_stamp: new Date().toLocaleString(),
-							lvl: c?c.lvl:0+1
-						};
-						// BootstrapDialog.success(JSON.stringify(newc));
-						toastr.success(JSON.stringify(newc), 'Sent',
-						               {timeOut: 500,preventDuplicates: true, positionClass: 'toast-bottom-full-width'});
-						newc.newcomment = $scope.newcomment();
-						cs.push(newc);
-						this.content = '';
-						cs = sort(cs);
-						console.log('sent:\n'+newc);
-					}
-				},
-				switch: function(c) {
-					if (c.lvl > 1) {
-						this.margin_left = 55 + c.lvl*45 +'px'
-					}
-					this.show = !this.show;
 					// Simple GET request example:
 					$scope.$root['ajax_loader'].show = true;
 					$http({
@@ -97,6 +69,34 @@ define(['angular', 'toastr', 'Enumerable', 'bootstrap-dialog', 'app/welcome/full
 						$scope.$root['ajax_loader'].show = false;
 					    // "complete" code here
 					});
+
+					if (this.content != '') {
+						this.show = false;
+						var newc = {
+							id : cs.length + 1,
+							user: 'Test User',
+							msg: this.content,
+							parent_id: c?c.id:null,
+							img:null,
+							topic_id: c?c.topic_id:0,
+							time_stamp: new Date().toLocaleString(),
+							lvl: (c?c.lvl:0)+1
+						};
+						// BootstrapDialog.success(JSON.stringify(newc));
+						toastr.success(JSON.stringify(newc), 'Sent',
+						               {timeOut: 500,preventDuplicates: true, positionClass: 'toast-bottom-full-width'});
+						newc.newcomment = $scope.newcomment();
+						cs.push(newc);
+						this.content = '';
+						cs = sort(cs);
+						console.log('sent:\n'+newc);
+					}
+				},
+				switch: function(c) {
+					if (c.lvl > 1) {
+						this.margin_left = 55 + c.lvl*45 +'px'
+					}
+					this.show = !this.show;
 				}
 			}
 		};
