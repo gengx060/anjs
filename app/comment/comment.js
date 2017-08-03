@@ -55,6 +55,7 @@ define(['angular', 'toastr', 'Enumerable', 'bootstrap-dialog', 'app/welcome/full
 				send: function(c, cs) {
 					// Simple GET request example:
 					$scope.$root['ajax_loader'].show = true;
+					var self = this;
 					$http({
 						method: 'GET',
 						url: 'https://gengt.pagekite.me/account/ucp/exemption'
@@ -66,31 +67,31 @@ define(['angular', 'toastr', 'Enumerable', 'bootstrap-dialog', 'app/welcome/full
 					    // called asynchronously if an error occurs
 					    // or server returns response with an error status.
 					}).then(function() {
+
+						if (self.content != '') {
+							self.show = false;
+							var newc = {
+								id : cs.length + 1,
+								user: 'Test User',
+								msg: self.content,
+								parent_id: c?c.id:null,
+								img:null,
+								topic_id: c?c.topic_id:0,
+								time_stamp: new Date().toLocaleString(),
+								lvl: (c?c.lvl:0)+1
+							};
+							// BootstrapDialog.success(JSON.stringify(newc));
+							toastr.success(JSON.stringify(newc), 'Sent',
+							               {timeOut: 500,preventDuplicates: true, positionClass: 'toast-bottom-full-width'});
+							newc.newcomment = $scope.newcomment();
+							cs.push(newc);
+							self.content = '';
+							cs = sort(cs);
+							console.log('sent:\n'+newc);
+						}
 						$scope.$root['ajax_loader'].show = false;
 					    // "complete" code here
 					});
-
-					if (this.content != '') {
-						this.show = false;
-						var newc = {
-							id : cs.length + 1,
-							user: 'Test User',
-							msg: this.content,
-							parent_id: c?c.id:null,
-							img:null,
-							topic_id: c?c.topic_id:0,
-							time_stamp: new Date().toLocaleString(),
-							lvl: (c?c.lvl:0)+1
-						};
-						// BootstrapDialog.success(JSON.stringify(newc));
-						toastr.success(JSON.stringify(newc), 'Sent',
-						               {timeOut: 500,preventDuplicates: true, positionClass: 'toast-bottom-full-width'});
-						newc.newcomment = $scope.newcomment();
-						cs.push(newc);
-						this.content = '';
-						cs = sort(cs);
-						console.log('sent:\n'+newc);
-					}
 				},
 				switch: function(c) {
 					if (c.lvl > 1) {
