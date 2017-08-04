@@ -44,16 +44,25 @@ define(['angular','angular-route', 'app/menu/menu', 'app/comment/comment', 'app/
     }
   ]).controller('AuthCtrl', ['srvAuth', '$scope',
             function(srvAuth, $scope) {
-                  $scope.logout = function() {
+                $scope.logout = function() {
                     srvAuth.logout();
                 }
                 $scope.fblogin = function() {
-                    debugger
-                    srvAuth.fblogin();
+                    FB.api(
+                        "/me/friends",
+                        function (response) {
+                            debugger
+                          if (response && !response.error) {
+                            /* handle the result */
+                          }
+                        }
+                    );
                 }
-            }
-
-            ]);
+            }]).controller('AuthCtrl1', ['$scope', '$location',
+            function($scope, $location) {
+                debugger
+                $scope.name = 'aaa';
+            }]);
 
 	app.config(['$routeProvider',
 	           function($routeProvider) {
@@ -67,6 +76,10 @@ define(['angular','angular-route', 'app/menu/menu', 'app/comment/comment', 'app/
 			$routeProvider.when('/comment', {
 				template: '<comment></comment>'
 			});
+            $routeProvider.when('/callback', {
+                controller: 'AuthCtrl1',
+                templateUrl: 'app/welcome/callback.template.html'
+            });
 			$routeProvider.when('/welcome', {
 				templateUrl: 'app/welcome/welcome.template.html'
 			});
@@ -88,7 +101,6 @@ define(['angular','angular-route', 'app/menu/menu', 'app/comment/comment', 'app/
             function($rootScope, $window, sAuth) {
               $rootScope.user = {};
               $window.fbAsyncInit = function() {
-                debugger
                 // Executed when the SDK is loaded
                 FB.init({
                     appId      : '123129551645487',
