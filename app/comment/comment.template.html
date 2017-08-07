@@ -17,8 +17,8 @@
 		<div ng-style="{'margin-left': '40px'}">
 			<div style='float:left; margin-right: 12px;'>
 				<a href='#'>
-					<img ng-style="{'width':'48px', 'height': '48px'}"
-						 ng-src='{{newcomment_top.img ? newcomment_top.img : "asset/img/noavatar.png"}}'>
+					<img ng-style="{'width':'48px', 'height': '48px'}" class="img-circle"
+						 ng-src='{{newcomment_top.img ? newcomment_top.img : profile_placeholder}}'>
 				</a>
 			</div>
 			<div style='overflow: hidden;margin-right:40px'>
@@ -34,7 +34,7 @@
 			<div style='float:left; margin-right: 12px;'>
 				<a href='#'>
 					<img ng-style="{'width': comment.lvl=='1'?'48px':'36px', 'height':  comment.lvl=='1'?'48px':'36px'}"
-						 ng-src='{{comment.newcomment.img ? comment.newcomment.img : "asset/img/noavatar.png"}}'>
+						 class="img-circle" ng-src='{{comment.newcomment.img ? comment.newcomment.img : profile_placeholder}}'>
 				</a>
 			</div>
 			<div style='overflow: hidden'>
@@ -55,8 +55,8 @@
 			<div ng-style="{'margin-left': comment.newcomment.margin_left}">
 				<div style='float:left; margin-right: 12px;'>
 					<a href='#'>
-						<img ng-style="{'width':'36px', 'height': '36px'}"
-							 ng-src='{{comment.newcomment.img ? comment.newcomment.img : "asset/img/noavatar.png"}}'>
+						<img ng-style="{'width':'36px', 'height': '36px'}" class="img-circle"
+							 ng-src='{{comment.newcomment.img ? comment.newcomment.img : profile_placeholder}}'>
 					</a>
 				</div>
 				<div style='overflow: hidden;margin-right:40px'>

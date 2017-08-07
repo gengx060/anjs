@@ -44,7 +44,7 @@ define(['angular', 'toastr', 'Enumerable', 'bootstrap-dialog', 'app/welcome/full
 					
 					// $scope.code_text = '';
 					// $scope.code_text_show = false;
-					$scope.newcomment_top = $scope.newcomment();
+					$scope.profile_placeholder = "asset/img/blank-profile.png";
 					$scope.newcomment = function () {
 						return {
 							content    : '',
