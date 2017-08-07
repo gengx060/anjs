@@ -1,5 +1,5 @@
 define(['angular'], function (angular) {
-	angular.module('fullPageLoader', []) 
+	angular.module('fullPageLoader', [])
 	.directive('fullPageLoader', function() {
 		return {
 			require: '^tabs',

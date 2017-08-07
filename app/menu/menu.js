@@ -1,23 +1,19 @@
-
-
 define(['angular', 'bootstrap'], function (angular) {
-  angular.module('menu', []) 
-    .directive('menu', function() {
-      return {
-        require: '^tabs',
-        restrict: 'E',
-        transclude: true,
-        scope: {
-         
-        },
-        controller: function($scope, $element) {
-          $scope.menus = [
-            { name: 'welcome', route: '/welcome', nav: false, title:'Welcome' },
-            { name: 'comments',   route: '/comment', nav: true,  title:'Github Users' },
-            { name: 'users',   route: '/contact', nav: true,  title:'Github Users' }
-          ];
-        },
-        template:'\
+	angular.module('menu', [])
+	.directive('menu', function () {
+		return {
+			require   : '^tabs',
+			restrict  : 'E',
+			transclude: true,
+			scope     : {},
+			controller: function ($scope, $element) {
+				$scope.menus = [
+					{name: 'welcome', route: '/welcome', nav: false, title: 'Welcome'},
+					{name: 'comments', route: '/comment', nav: true, title: 'Github Users'},
+					{name: 'users', route: '/contact', nav: true, title: 'Github Users'}
+				];
+			},
+			template  : '\
         <nav class="navbar navbar-inverse navbar-static-top" role="navigation">\
     <div class="container-fluid">\
       <!-- Brand and toggle get grouped for better mobile display -->\
@@ -60,7 +56,7 @@ define(['angular', 'bootstrap'], function (angular) {
       </div><!-- /.navbar-collapse -->\
     </div><!-- /.container-fluid -->\
   </nav>',
-        replace: true
-      };
-  });
+			replace   : true
+		};
+	});
 });
