@@ -1,7 +1,7 @@
-define(['angular', 'angular-route', 'app/menu/menu', 'app/comment/comment', 'app/contact/contacts',
-	'app/welcome/full-page-loader'], function (angular) {
+define(['angular', 'angular-route', 'angular-sanitize', 'ui-bootstrap', 'app/menu/menu', 'app/comment/comment', 'app/contact/contacts',
+	'app/common/vcard/vcard', 'app/welcome/full-page-loader'], function (angular) {
 	
-	var app = angular.module('app', ['ngRoute', 'menu', 'comment', 'contacts', 'fullPageLoader'])
+	var app = angular.module('app', ['ngRoute', 'ngSanitize', 'ui.bootstrap', 'menu', 'comment', 'contacts', 'vcard', 'fullPageLoader'])
 	.factory("srvAuth", ['$rootScope',
 		function ($rootScope) {
 			var srvAuth = {};
@@ -42,7 +42,8 @@ define(['angular', 'angular-route', 'app/menu/menu', 'app/comment/comment', 'app
 			
 			return srvAuth;
 		}
-	]).controller('AuthCtrl', ['srvAuth', '$scope',
+	])
+	.controller('AuthCtrl', ['srvAuth', '$scope',
 		function (srvAuth, $scope) {
 			$scope.logout = function () {
 				srvAuth.logout();
@@ -58,11 +59,40 @@ define(['angular', 'angular-route', 'app/menu/menu', 'app/comment/comment', 'app
 					}
 				);
 			}
-		}]).controller('AuthCtrl1', ['$scope', '$location',
+		}])
+	.controller('AuthCtrl1', ['$scope', '$location',
 		function ($scope, $location) {
 			debugger
 			$scope.name = 'aaa';
-		}]);
+		}])
+	.controller('vcard1', function ($scope, $sce) {
+		$scope.dynamicPopover = {
+			content    : 'Hello, World!',
+			templateUrl: 'app/common/vcard/vcard.template.html',
+			title      : 'Title'
+		};
+		
+		$scope.placement = {
+			options : [
+				'top',
+				'top-left',
+				'top-right',
+				'bottom',
+				'bottom-left',
+				'bottom-right',
+				'left',
+				'left-top',
+				'left-bottom',
+				'right',
+				'right-top',
+				'right-bottom'
+			],
+			selected: 'right-top'
+		};
+		
+		// $scope.htmlPopover = $sce.trustAsHtml('<b style="color: red">I can</b> have <div class="label label-success">HTML</div> content');
+		
+	});
 	
 	app.config(['$routeProvider',
 		function ($routeProvider) {
@@ -101,6 +131,7 @@ define(['angular', 'angular-route', 'app/menu/menu', 'app/comment/comment', 'app
 	app.run(['$rootScope', '$window', 'srvAuth',
 		function ($rootScope, $window, sAuth) {
 			$rootScope.user = {};
+			$rootScope.profile_placeholder = "asset/img/blank-profile.png";
 			$window.fbAsyncInit = function () {
 				// Executed when the SDK is loaded
 				FB.init({

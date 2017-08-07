@@ -1,0 +1,13 @@
+<!--<script src="app/contcontacts.jst.js"></script>-->
+<div style="width:500px">
+	<!--<div style='position: relative;left: 45%; top: 40%;color:black;opacity: 0.5'>-->
+		<!--<i class="fa fa-spinner fa-spin fa-5x"></i>-->
+	<!--</div>-->
+	<img ng-style="{'width':'84px', 'height':'84px'}"
+			 class="img-rounded" ng-src='{{src.img ? src.img : $root.profile_placeholder}}'/>
+	<div style="display:inline">
+		<a href='javascript: void(0);'><b>{{src.name}}</b></a>
+		<div><span>crated at {{src.time_stamp}}</span></div>
+	</div>
+		
+</div>

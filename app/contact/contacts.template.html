@@ -15,12 +15,13 @@
 		<tr ng-repeat="c in contacts">
 			<th scope="row">{{c.id}}</th>
 			<td>
-				<a href='javascript:void(0);'>
-					<img ng-style="{'width':'36px', 'height':'36px'}"
-						 class="img-circle" ng-src='{{c.img ? c.img : profile_placeholder}}'>
-				</a>
+				<vcard type='profile' src='c'></vcard>
+				<!--<a href='javascript:void(0);'>-->
+					<!--<img ng-style="{'width':'36px', 'height':'36px'}"-->
+						 <!--class="img-circle" ng-src='{{c.img ? c.img : profile_placeholder}}'>-->
+				<!--</a>-->
 			</td>
-			<td>{{c.user}}</td>
+			<td>{{c.name}}</td>
 			<td>{{c.time_stamp}}</td>
 		</tr>
 		
