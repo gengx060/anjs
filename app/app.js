@@ -1,6 +1,7 @@
-define(['angular', 'angular-route', 'app/menu/menu', 'app/comment/comment', 'app/welcome/full-page-loader'], function (angular) {
+define(['angular', 'angular-route', 'app/menu/menu', 'app/comment/comment', 'app/contact/contacts',
+	'app/welcome/full-page-loader'], function (angular) {
 	
-	var app = angular.module('app', ['ngRoute', 'menu', 'comment', 'fullPageLoader'])
+	var app = angular.module('app', ['ngRoute', 'menu', 'comment', 'contacts', 'fullPageLoader'])
 	.factory("srvAuth", ['$rootScope',
 		function ($rootScope) {
 			var srvAuth = {};
@@ -69,9 +70,10 @@ define(['angular', 'angular-route', 'app/menu/menu', 'app/comment/comment', 'app
 			//   templateUrl: 'show_orders.html',
 			//   controller: 'ShowOrdersController'
 			// });
-			// $routeProvider.when('/contact', {
-			//   templateUrl: 'app/contact/contact.template.html',
-			// });
+			$routeProvider.when('/contacts', {
+				// templateUrl: 'app/contact/contacts.template.html',
+				template: '<contacts></contacts>'
+			});
 			$routeProvider.when('/comment', {
 				template: '<comment></comment>'
 			});

@@ -122,7 +122,7 @@ define(['angular', 'toastr', 'Enumerable', 'bootstrap-dialog', 'app/welcome/full
 							user      : 'Stefanih',
 							msg       : 'We have clients all over the US. We do everything from my home office. Do we charge tax to everyone or only to those who live in Texas? Or? \n\nTHANK YOU!!!',
 							parent_id : null,
-							img       : null,
+							img       : "asset/img/g1.jpg",
 							lvl       : 1,
 							time_stamp: '12/12/2016, 11:06:47 AM',
 							newcomment: $scope.newcomment()

@@ -36,7 +36,7 @@ define(['angular'], function(angular){
         controller: 'ShowOrdersController'
       });
       $routeProvider.when('/contact', {
-        templateUrl: 'app/contact/contact.template.html',
+        templateUrl: 'app/contact/contacts.template.html',
       });
       $routeProvider.when('/comment', {
         template: '<comment></comment>'

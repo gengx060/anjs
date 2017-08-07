@@ -10,7 +10,7 @@ define(['angular', 'bootstrap'], function (angular) {
 				$scope.menus = [
 					{name: 'welcome', route: '/welcome', nav: false, title: 'Welcome'},
 					{name: 'comments', route: '/comment', nav: true, title: 'Github Users'},
-					{name: 'users', route: '/contact', nav: true, title: 'Github Users'}
+					{name: 'users', route: '/contacts', nav: true, title: 'Github Users'}
 				];
 			},
 			template  : '\
