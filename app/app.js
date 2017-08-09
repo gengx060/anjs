@@ -1,7 +1,7 @@
-define(['angular', 'angular-route', 'angular-sanitize', 'ui-bootstrap', 'app/menu/menu', 'app/comment/comment', 'app/contact/contacts',
-	'app/common/vcard/vcard', 'app/welcome/full-page-loader'], function (angular) {
+define(['angular', 'jquery','angular-route', 'angular-sanitize', 'ui-bootstrap', 'app/menu/menu', 'app/comment/comment', 'app/contact/contacts',
+	'app/welcome/full-page-loader'], function (angular, $) {
 	
-	var app = angular.module('app', ['ngRoute', 'ngSanitize', 'ui.bootstrap', 'menu', 'comment', 'contacts', 'vcard', 'fullPageLoader'])
+	var app = angular.module('app', ['ngRoute', 'ngSanitize', 'ui.bootstrap', 'menu', 'comment', 'contacts','fullPageLoader'])
 	.factory("srvAuth", ['$rootScope',
 		function ($rootScope) {
 			var srvAuth = {};
@@ -101,7 +101,7 @@ define(['angular', 'angular-route', 'angular-sanitize', 'ui-bootstrap', 'app/men
 			//   controller: 'ShowOrdersController'
 			// });
 			$routeProvider.when('/contacts', {
-				// templateUrl: 'app/contact/contacts.template.html',
+				// templateUrl: 'app/contact/contact.template.html',
 				template: '<contacts></contacts>'
 			});
 			$routeProvider.when('/comment', {
@@ -158,6 +158,38 @@ define(['angular', 'angular-route', 'angular-sanitize', 'ui-bootstrap', 'app/men
 	//         }
 	
 	//         ]);
+	
+	var ajaxRequest = function (myPostData, url, success, error, complete) {
+		
+		var headers = {};
+		headers.antiForgeryToken = sessionStorage.getItem("antiForgeryToken");
+		
+		var options = {
+			url        : '/api/' + url, //'/api/Sample/Test2',
+			type       : "post",
+			data       : JSON.stringify(myPostData),
+			contentType: "application/json; charset=UTF-8",
+			dataType   : "text",
+			headers    : headers,
+			//async: !isSync,
+			context    : this,
+			success    : success,
+			error      : error,
+			complete   : function (res) {
+				deugger
+				if (complete) {
+					complete(res);
+				}
+				if (res.statusText == 'Unauthorized') {
+					//if(Util.CurrentApp != 'login') {
+					//Util.CurrentApp = 'login';
+					//}
+				}
+			}
+		};
+		
+		$.ajax(options);
+	}
 	
 	angular.element(function () {
 		angular.bootstrap(document.body, ['app']);
