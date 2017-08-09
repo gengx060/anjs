@@ -1,5 +1,5 @@
 define(['angular', 'bootstrap', 'app/common/vcard/vcard', 'app/common/modal/modal', 'app/common/modal/modal-trigger'], function (angular) {
-	angular.module('contacts', ['vcard', 'modal', 'modaltrigger'])
+	angular.module('contacts', ['vcard', 'modal', 'modalTrigger'])
 	.directive('contacts', function () {
 		
 		return {

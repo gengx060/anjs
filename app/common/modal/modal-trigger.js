@@ -1,6 +1,6 @@
 define(['angular'], function (angular) {
-	angular.module('modaltrigger', [])
-	.directive('modaltrigger', function () {
+	angular.module('modalTrigger', [])
+	.directive('modalTrigger', function () {
 		
 		return {
 			require    : '^tabs',
