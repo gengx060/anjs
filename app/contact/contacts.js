@@ -1,5 +1,5 @@
-define(['angular', 'bootstrap', 'app/common/vcard/vcard', 'app/common/modal/modal', 'app/common/modal/modal-trigger'], function (angular) {
-	angular.module('contacts', ['vcard', 'modal', 'modalTrigger'])
+define(['angular', 'angular-modal-service', 'app/common/vcard/vcard', 'app/common/modal/modal-trigger'], function (angular) {
+	angular.module('contacts', ['angularModalService', 'vcard', 'modalTrigger'])
 	.directive('contacts', function () {
 		
 		return {
@@ -35,6 +35,26 @@ define(['angular', 'bootstrap', 'app/common/vcard/vcard', 'app/common/modal/moda
 			},
 			templateUrl: 'app/contact/contacts.template.html',
 			replace    : true
+		};
+	})
+	.controller('Controller', function ($scope, ModalService) {
+
+		$scope.show = function () {
+			ModalService.showModal({
+				templateUrl: 'app/contact/modal.template.html',
+				controller : "ModalController"
+			}).then(function (modal) {
+				modal.element.modal();
+				modal.close.then(function (result) {
+					$scope.message = "You said " + result;
+				});
+			});
+		}
+	})
+	.controller('ModalController', function($scope, close) {
+		
+		$scope.close = function(result) {
+			close(result, 500); // close, but give 500ms for bootstrap to animate
 		};
 	});
 });

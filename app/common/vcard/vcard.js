@@ -10,13 +10,11 @@ define(['angular', 'ui-bootstrap'], function (angular) {
 				src : '='
 			},
 			controller: function ($scope) {
-				// $scope.src = JSON.parse($scope.src);
-				// debugger
 				$scope.conf = {
 					templateUrl: $scope.type == 'profile' ? 'app/common/vcard/vcard.template.html' : '',
 					title      : 'Title'
 				};
-				
+				$scope.triggerStyle = {'padding-top':'8px', 'padding-right':'8px', 'padding-bottom': '0px'};
 			},
 			templateUrl  : 'app/common/vcard/vcard-trigger.template.html',
 			replace   : true
